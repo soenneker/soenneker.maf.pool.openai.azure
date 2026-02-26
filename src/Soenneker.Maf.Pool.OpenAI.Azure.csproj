@@ -44,7 +44,7 @@
 
     <ItemGroup>
         <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
-        <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-rc1" />
+        <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-rc2" />
         <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.1" />
     </ItemGroup>
 </Project>
