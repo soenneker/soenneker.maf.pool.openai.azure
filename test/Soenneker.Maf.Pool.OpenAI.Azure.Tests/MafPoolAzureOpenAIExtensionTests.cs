@@ -1,14 +1,13 @@
-using Xunit;
 
 namespace Soenneker.Maf.Pool.OpenAI.Azure.Tests;
 
 public sealed class MafPoolAzureOpenAIExtensionTests
 {
-    public MafPoolAzureOpenAIExtensionTests(ITestOutputHelper output)
+    public MafPoolAzureOpenAIExtensionTests( output)
     {
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
