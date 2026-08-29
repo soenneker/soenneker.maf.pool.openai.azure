@@ -18,6 +18,19 @@ public static class MafPoolAzureOpenAIExtension
     /// <summary>
     /// Registers an Azure OpenAI model in the agent pool with optional rate/token limits.
     /// </summary>
+    /// <param name="pool">Pool that supplies the reusable resource.</param>
+    /// <param name="poolId">Identifier of the target pool.</param>
+    /// <param name="key">Key used to locate the target entry.</param>
+    /// <param name="deploymentName">Name of the deployment to target.</param>
+    /// <param name="apiKey">API key used to authenticate the request.</param>
+    /// <param name="endpoint">Service endpoint to call.</param>
+    /// <param name="rps">Optional requests-per-second limit.</param>
+    /// <param name="rpm">Optional requests-per-minute limit.</param>
+    /// <param name="rpd">Optional requests-per-day limit.</param>
+    /// <param name="tokensPerDay">Optional daily token limit.</param>
+    /// <param name="instructions">Instructions supplied to the model or processor.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task that completes when the azure openai addition is complete.</returns>
     public static ValueTask AddAzureOpenAI(this IMafPool pool, string poolId, string key, string deploymentName, string apiKey, string endpoint,
         int? rps = null, int? rpm = null, int? rpd = null, int? tokensPerDay = null, string? instructions = null,
         CancellationToken cancellationToken = default)
@@ -48,6 +61,10 @@ public static class MafPoolAzureOpenAIExtension
     /// <summary>
     /// Unregisters an Azure OpenAI model from the agent pool and removes the associated cache entry.
     /// </summary>
+    /// <param name="pool">Pool that supplies the reusable resource.</param>
+    /// <param name="poolId">Identifier of the target pool.</param>
+    /// <param name="key">Key used to locate the target entry.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>True if the entry existed and was removed; false if it was not present.</returns>
     public static ValueTask<bool> RemoveAzureOpenAI(this IMafPool pool, string poolId, string key, CancellationToken cancellationToken = default)
     {
