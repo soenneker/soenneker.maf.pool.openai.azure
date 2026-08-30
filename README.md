@@ -13,16 +13,27 @@ Provides Azure OpenAI-specific registration extensions for `IMafPool`, enabling 
 dotnet add package Soenneker.Maf.Pool.OpenAI.Azure
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Maf.Pool.OpenAI.Azure;
+using Soenneker.Maf.Pool.Abstract;
 
-IMafPool pool = /* obtain from your application */;
-await pool.AddAzureOpenAI("value", "value", "value", "value", "value", default);
+await pool.AddAzureOpenAI(
+    poolId: "chat",
+    key: "azure-primary",
+    deploymentName: "chat-production",
+    apiKey: configuration["AZURE_OPENAI_API_KEY"]!,
+    endpoint: configuration["AZURE_OPENAI_ENDPOINT"]!,
+    rpm: 60,
+    instructions: "Answer concisely.",
+    cancellationToken: cancellationToken);
+
+(AIAgent? agent, IMafPoolEntry? entry) =
+    await pool.GetAvailable("chat", cancellationToken);
 ```
 
-Registers an Azure OpenAI model in the agent pool with optional rate/token limits.
+Use the Azure resource endpoint, such as `https://my-resource.openai.azure.com`, and the Azure deployment name—not the underlying model name.
 
 ## What you get
 
@@ -37,4 +48,7 @@ Registers an Azure OpenAI model in the agent pool with optional rate/token limit
 
 ## Practical notes
 
-- Cancellation stops pending work; it does not undo work that has already completed.
+- The agent is created lazily and reused until its entry is removed.
+- Store the API key in a secret provider; the pool retains it in the entry options while the entry is registered.
+- Omitted instructions default to `You are a helpful assistant.`
+- Checkout consumes one request from the configured quota. `tokensPerDay` is not reconciled against Azure's actual token usage.
